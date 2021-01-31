@@ -9,8 +9,10 @@ function renderItem(doc){
     let difficulty = document.createElement('span');
     let isCompleted = document.createElement('span');
     let cross = document.createElement('div');
+    let checkbox = document.createElement('INPUT');
 
     li.setAttribute('data-id', doc.id);
+    checkbox.setAttribute('type', 'checkbox');
     name.textContent = doc.data().name;
     location.textContent = doc.data().location;
     difficulty.textContent = doc.data().difficulty;
@@ -22,6 +24,7 @@ function renderItem(doc){
     li.appendChild(difficulty);
     li.appendChild(isCompleted);
     li.appendChild(cross);
+    li.appendChild(checkbox);
 
     itemList.append(li);
 
@@ -31,6 +34,15 @@ function renderItem(doc){
         let crossId = e.target.parentElement.getAttribute('data-id');
         dataBase.collection('list-items').doc(crossId).delete();
     })
+
+    checkbox.addEventListener('change', (e) => {
+        //e.preventDefault();
+        let crossId = e.target.parentElement.getAttribute('data-id');
+        console.log(!isCompleted)
+        dataBase.collection('list-items').doc(crossId).update({
+            isCompleted: !isCompleted
+        })
+      });
 }
 
 //get data
@@ -60,7 +72,7 @@ form.addEventListener('submit', (e) => {
 dataBase.collection('list-items').orderBy('name').onSnapshot( (snapshot) => {
     let changes = snapshot.docChanges();
     changes.forEach(change => {
-        if(change.type == 'added'){
+        if(change.type == 'added' || 'modified'){
             renderItem(change.doc);
         }else if(change.type == 'removed'){
             let li = itemList.querySelector('[data-id=' + change.doc.id + ']');

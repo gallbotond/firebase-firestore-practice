@@ -32,7 +32,7 @@ li{
     color: #555;
     position: relative;
     border-bottom: 1px solid #e6e6e6;
-    height: 80px;
+    height: 100px;
 }
 
 li:nth-child(even){
