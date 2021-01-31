@@ -49,7 +49,11 @@ form.addEventListener('submit', (e) => {
         difficulty: form.difficulty.value,
         isCompleted: false
     })
-    form.reset();
+    //form.reset();
+    form.name.value = '';
+    form.location.value = '';
+    form.difficulty.value = '';
+
 })
 
 //real-time listener
